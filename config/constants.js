@@ -1,0 +1,17 @@
+const {
+  PORT,
+  MONGO_URI,
+  JWT_SECRET,
+  MAIL_EMAIL,
+  MAIL_PASSWORD,
+  UPDATE_PASSWORD_URI
+} = process.env
+
+module.exports = {
+  PORT,
+  MONGO_URI,
+  JWT_SECRET,
+  MAIL_EMAIL,
+  MAIL_PASSWORD,
+  UPDATE_PASSWORD_URI
+}
