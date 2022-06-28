@@ -106,8 +106,8 @@ const updatePassword = async (_, args) => {
 
   const user = await User.findOne({ email: args.email })
 
-  if (user) {
-    throw new UserInputError('User already exists with given email')
+  if (!user) {
+    throw new UserInputError("User doesn't exist")
   }
 
   if (args.role !== 'EMP') {
