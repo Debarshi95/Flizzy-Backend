@@ -3,6 +3,7 @@ const { gql } = require('apollo-server')
 module.exports = gql`
   type Query {
     getAllUsers: [User!]
+    getLeaveRecords: [LeaveRecord!]
   }
 
   type User {
@@ -13,6 +14,13 @@ module.exports = gql`
     salary: String
     designation: String
     role: String
+  }
+
+  type LeaveRecord {
+    reason: String
+    startDate: String!
+    endDate: String!
+    leaveStatus: String!
   }
 
   type AuthResponse {
@@ -41,5 +49,11 @@ module.exports = gql`
     ): AuthResponse
     loginUser(email: String!, password: String!, role: String!): AuthResponse
     logoutUser: Message!
+    updateLeaveRecord(userId: String!, status: String!): Message!
+    createLeaveRecord(
+      startDate: String!
+      endDate: String!
+      reason: String
+    ): Message!
   }
 `

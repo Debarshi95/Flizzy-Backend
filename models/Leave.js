@@ -11,11 +11,11 @@ const leaveSchema = new Schema(
       ref: 'user'
     },
     startDate: {
-      type: Date,
+      type: String,
       required: true
     },
     endDate: {
-      type: Date,
+      type: String,
       required: true
     },
     leaveStatus: {
