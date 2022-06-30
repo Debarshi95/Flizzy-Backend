@@ -1,9 +1,11 @@
-const validateRegister = ({
+const validateHR = ({
   name,
   email,
-  password,
   phoneNumber,
-  confirmPassword
+  address,
+  salary,
+  password,
+  designation
 }) => {
   const errors = {}
 
@@ -19,27 +21,64 @@ const validateRegister = ({
     errors.phoneNumber = 'Phone number is required'
   }
 
+  if (!address || address.trim() === '') {
+    errors.address = 'Address is required'
+  }
   if (!password || password.trim() === '') {
     errors.password = 'Password is required'
   }
-
-  if (password.trim()?.length < 6) {
-    errors.password = 'Password must have atleast six charaters'
+  if (!salary || salary.trim() === '') {
+    errors.salary = 'Salary is required'
   }
 
-  if (
-    !confirmPassword ||
-    confirmPassword.trim() === '' ||
-    password !== confirmPassword
-  ) {
-    errors.password = 'Passwords donot match'
+  if (!designation || designation.trim() === '') {
+    errors.designation = 'Designation is required'
   }
+
   return {
     errors,
     valid: !Object.keys(errors).length > 0
   }
 }
+const validateEmployee = ({
+  name,
+  email,
+  phoneNumber,
+  address,
+  salary,
+  designation
+}) => {
+  const errors = {}
 
+  if (!name || name.trim() === '') {
+    errors.name = 'Name is required'
+  }
+
+  if (!email || email.trim() === '') {
+    errors.email = 'Email is required'
+  }
+
+  if (!phoneNumber || phoneNumber.trim() === '') {
+    errors.phoneNumber = 'Phone number is required'
+  }
+
+  if (!address || address.trim() === '') {
+    errors.address = 'Address is required'
+  }
+
+  if (!salary || salary.trim() === '') {
+    errors.salary = 'Salary is required'
+  }
+
+  if (!designation || designation.trim() === '') {
+    errors.designation = 'Designation is required'
+  }
+
+  return {
+    errors,
+    valid: !Object.keys(errors).length > 0
+  }
+}
 const validateLogin = ({ email, password }) => {
   const errors = {}
 
@@ -58,6 +97,7 @@ const validateLogin = ({ email, password }) => {
 }
 
 module.exports = {
-  validateRegister,
-  validateLogin
+  validateHR,
+  validateLogin,
+  validateEmployee
 }

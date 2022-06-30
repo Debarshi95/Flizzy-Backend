@@ -4,16 +4,22 @@ module.exports = gql`
   type Query {
     getAllUsers: [User!]
     getLeaveRecords: [LeaveRecord!]
+    getUser: User
   }
 
   type User {
     id: ID!
+    token: String!
     name: String!
     email: String!
     phoneNumber: String!
-    salary: String
-    designation: String
-    role: String
+    address: String!
+    salary: String!
+    designation: String!
+    role: String!
+    totalLeaves: Int!
+    availableLeaves: Int!
+    active: Boolean
   }
 
   type LeaveRecord {
@@ -34,20 +40,29 @@ module.exports = gql`
   }
 
   type Mutation {
-    registerUser(
+    registerEmployee(
       name: String!
       email: String!
-      role: String!
       phoneNumber: String!
+      salary: String!
+      designation: String!
+      address: String!
+    ): User!
+    registerHR(
+      name: String!
+      email: String!
+      phoneNumber: String!
+      salary: String!
+      designation: String!
+      address: String!
       password: String!
-      confirmPassword: String!
-    ): Message
+    ): User!
     updatePassword(
       email: String!
       password: String!
       role: String!
     ): AuthResponse
-    loginUser(email: String!, password: String!, role: String!): AuthResponse
+    loginUser(email: String!, password: String!, role: String): User!
     logoutUser: Message!
     updateLeaveRecord(userId: String!, status: String!): Message!
     createLeaveRecord(

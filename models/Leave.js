@@ -27,4 +27,4 @@ const leaveSchema = new Schema(
   { timestamps: true }
 )
 
-module.exports = model('LeaveRecord', leaveSchema)
+module.exports = model('Leave', leaveSchema)

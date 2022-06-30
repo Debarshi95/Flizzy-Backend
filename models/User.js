@@ -37,6 +37,18 @@ const userSchema = new Schema(
     active: {
       type: Boolean,
       default: false
+    },
+    address: {
+      type: String,
+      required: true
+    },
+    totalLeaves: {
+      type: Number,
+      default: 15
+    },
+    availableLeaves: {
+      type: Number,
+      default: 15
     }
   },
   { timestamps: true }
