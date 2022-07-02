@@ -21,7 +21,7 @@ const generateMailBody = (to, name = '') => {
     html: `<p>
         <h2>Hey, ${name}</h2>
         <br/>
-        Please <a href=${UPDATE_PASSWORD_BASE_URI}>Click Here</a> to create your password
+        Please <a href=${UPDATE_PASSWORD_BASE_URI} target='_blank'>Click Here</a> to create your password
       </p>`
   }
 }
