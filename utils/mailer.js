@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer')
 const {
   MAIL_EMAIL,
   MAIL_PASSWORD,
-  UPDATE_PASSWORD_URI
+  UPDATE_PASSWORD_BASE_URI
 } = require('../config/constants')
 
 const mailTransporter = nodemailer.createTransport({
@@ -13,13 +13,15 @@ const mailTransporter = nodemailer.createTransport({
   }
 })
 
-const generateMailBody = (to) => {
+const generateMailBody = (to, name = '') => {
   return {
     from: MAIL_EMAIL,
     to,
     subject: 'Create your password',
     html: `<p>
-        Please <a href=${UPDATE_PASSWORD_URI}>Click Here</a> to create your password
+        <h2>Hey, ${name}</h2>
+        <br/>
+        Please <a href=${UPDATE_PASSWORD_BASE_URI}>Click Here</a> to create your password
       </p>`
   }
 }

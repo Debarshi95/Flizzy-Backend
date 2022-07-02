@@ -127,7 +127,7 @@ const registerEmployee = async (_, args) => {
   await user.save()
 
   if (role === 'EMP') {
-    const mailBody = generateMailBody(email)
+    const mailBody = generateMailBody(email, name)
     await mailTransporter.sendMail(mailBody)
   }
 
@@ -243,34 +243,9 @@ const updatePassword = async (_, args) => {
   user.active = true
   await user.save()
 
-  const {
-    _id,
-    email: userEmail,
-    name,
-    role: userRole,
-    address,
-    token: userToken,
-    phoneNumber,
-    designation,
-    salary,
-    availableLeaves,
-    totalLeaves,
-    active
-  } = user
-
   return {
-    token: userToken,
-    id: _id,
-    email: userEmail,
-    name,
-    address,
-    phoneNumber,
-    designation,
-    salary,
-    role: userRole,
-    availableLeaves,
-    totalLeaves,
-    active
+    success: true,
+    message: 'Password updated Successfully'
   }
 }
 

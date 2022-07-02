@@ -1,10 +1,11 @@
+require('dotenv').config()
 const {
   PORT,
   MONGO_URI,
   JWT_SECRET,
   MAIL_EMAIL,
   MAIL_PASSWORD,
-  UPDATE_PASSWORD_URI
+  UPDATE_PASSWORD_BASE_URI
 } = process.env
 
 module.exports = {
@@ -13,5 +14,5 @@ module.exports = {
   JWT_SECRET,
   MAIL_EMAIL,
   MAIL_PASSWORD,
-  UPDATE_PASSWORD_URI
+  UPDATE_PASSWORD_BASE_URI
 }
