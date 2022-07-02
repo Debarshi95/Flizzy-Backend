@@ -1,6 +1,8 @@
 const { UserInputError } = require('apollo-server')
+const moment = require('moment')
 const LeaveRecord = require('../../models/Leave')
 const User = require('../../models/User')
+const { appendChar } = require('../../utils/helperfunctions')
 
 const createLeaveRecord = async (_, args, ctx) => {
   const { headers } = ctx.req
@@ -9,6 +11,10 @@ const createLeaveRecord = async (_, args, ctx) => {
 
   if (!token) {
     throw new UserInputError('Token or Id not provided')
+  }
+
+  if (!startDate || !endDate) {
+    throw new UserInputError('Dates not provided')
   }
 
   const user = await User.findOne({ token })
@@ -31,10 +37,10 @@ const createLeaveRecord = async (_, args, ctx) => {
 
 const updateLeaveRecord = async (_, args, ctx) => {
   const { headers } = ctx.req
-  const { userId = '', status } = args
+  const { employeeId = '', status } = args
   const token = headers?.authorization || null
 
-  if (!token || !userId) {
+  if (!token || !employeeId) {
     throw new UserInputError('Token or Id not provided')
   }
 
@@ -48,23 +54,32 @@ const updateLeaveRecord = async (_, args, ctx) => {
     throw new UserInputError("You're not authorized to access this resource")
   }
 
-  const otherUser = LeaveRecord.findOne({ user: userId })
+  const employeeUser = await User.findOne({ _id: employeeId })
+  const record = await LeaveRecord.findOne({ user: employeeId })
 
-  console.log({ otherUser })
-
-  if (!otherUser) {
+  if (!employeeUser) {
     throw new UserInputError('User details not found')
   }
 
-  otherUser.leaveStatus = status
-  await otherUser.save()
+  const { startDate, endDate } = record
+  let totalDays = moment(endDate).diff(moment(startDate), 'days')
+  totalDays += 1
+
+  record.leaveStatus = appendChar(status, 'D')
+
+  if (record.leaveStatus === 'APPROVED') {
+    employeeUser.availableLeaves -= totalDays
+  }
+  await record.save()
+  await employeeUser.save()
 
   return { success: true, message: 'Status updated successfully' }
 }
 
-const getLeaveRecords = async (_, __, ctx) => {
+const getLeaveRecords = async (_, args, ctx) => {
   const { headers } = ctx.req
   const token = headers?.authorization || null
+  const { employeeId = '' } = args
 
   if (!token) {
     throw new UserInputError('Token or Id not provided')
@@ -76,7 +91,11 @@ const getLeaveRecords = async (_, __, ctx) => {
     throw new UserInputError("User doesn't exist")
   }
 
-  const records = await LeaveRecord.find({ user: user._id })
+  let searchId = user._id
+  if (user.role === 'HR' && employeeId) {
+    searchId = employeeId
+  }
+  const records = await LeaveRecord.find({ user: searchId })
   return records
 }
 module.exports = {
