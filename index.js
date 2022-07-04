@@ -9,6 +9,8 @@ const connectToDB = require('./utils/connect-to-db')
 const app = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
+  playground: true,
   context: (context) => context,
   csrfPrevention: true
 })
