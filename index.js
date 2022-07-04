@@ -2,7 +2,6 @@ const { ApolloServer } = require('apollo-server')
 const {
   ApolloServerPluginLandingPageGraphQLPlayground
 } = require('apollo-server-core')
-
 const typeDefs = require('./graphql/typeDefs')
 const resolvers = require('./graphql/resolvers')
 
@@ -12,10 +11,12 @@ const connectToDB = require('./utils/connect-to-db')
 const app = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
+  playground: true,
   cache: 'bounded',
+  csrfPrevention: true,
   plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
-  context: (context) => context,
-  csrfPrevention: true
+  context: (context) => context
 })
 
 connectToDB()
